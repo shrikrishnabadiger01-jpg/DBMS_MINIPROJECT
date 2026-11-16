@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import {
+  createCase,
   createCriminal,
+  deleteCriminalCaseLink,
   getCases,
   getCriminals,
+  getCrimes,
+  getOfficers,
   linkCriminalToCase,
+  updateCase,
 } from "./api";
 import "./App.css";
 
@@ -19,6 +24,14 @@ const EMPTY_LINK_FORM = {
   PersonRole: "Suspect",
 };
 
+const EMPTY_CASE_FORM = {
+  FIRNumber: "",
+  CrimeID: "",
+  OfficerID: "",
+  CaseStatus: "Open",
+  OpenedDate: "",
+};
+
 function formatDate(value) {
   return value ? String(value).slice(0, 10) : "—";
 }
@@ -32,6 +45,8 @@ function statusClass(status) {
 function App() {
   const [cases, setCases] = useState([]);
   const [criminals, setCriminals] = useState([]);
+  const [crimes, setCrimes] = useState([]);
+  const [officers, setOfficers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -44,19 +59,36 @@ function App() {
   const [linkMessage, setLinkMessage] = useState("");
   const [linkMessageType, setLinkMessageType] = useState("");
   const [linkForm, setLinkForm] = useState(EMPTY_LINK_FORM);
+  const [showCaseForm, setShowCaseForm] = useState(false);
+  const [caseForm, setCaseForm] = useState(EMPTY_CASE_FORM);
+  const [savingCase, setSavingCase] = useState(false);
+  const [caseMessage, setCaseMessage] = useState("");
+  const [caseMessageType, setCaseMessageType] = useState("");
+  const [statusCaseId, setStatusCaseId] = useState("");
+  const [statusValue, setStatusValue] = useState("Open");
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [showUnlinkForm, setShowUnlinkForm] = useState(false);
+  const [unlinking, setUnlinking] = useState(false);
+  const [unlinkForm, setUnlinkForm] = useState({ CriminalID: "", CaseID: "" });
+  const [unlinkMessage, setUnlinkMessage] = useState("");
+  const [unlinkMessageType, setUnlinkMessageType] = useState("");
 
   const loadData = useCallback(async () => {
     setLoading(true);
     setError("");
 
     try {
-      const [caseData, criminalData] = await Promise.all([
+      const [caseData, criminalData, crimeData, officerData] = await Promise.all([
         getCases(),
         getCriminals(),
+        getCrimes(),
+        getOfficers(),
       ]);
 
       setCases(caseData);
       setCriminals(criminalData);
+      setCrimes(crimeData);
+      setOfficers(officerData);
     } catch (err) {
       setError(err.message || "Could not load records.");
     } finally {
@@ -112,11 +144,105 @@ function App() {
       setLinkMessage(result.message || "Criminal linked successfully.");
       setLinkMessageType("success");
       setLinkForm(EMPTY_LINK_FORM);
+      await loadData();
     } catch (err) {
       setLinkMessage(err.message || "Could not link criminal to case.");
       setLinkMessageType("error");
     } finally {
       setLinking(false);
+    }
+  }
+
+  async function handleCaseSubmit(event) {
+    event.preventDefault();
+    const fir = caseForm.FIRNumber.trim();
+
+    if (!fir) {
+      setCaseMessage("Enter an FIR number to create a case.");
+      setCaseMessageType("error");
+      return;
+    }
+
+    setSavingCase(true);
+    setCaseMessage("");
+
+    try {
+      await createCase({
+        FIRNumber: fir,
+        CrimeID: Number(caseForm.CrimeID),
+        OfficerID: Number(caseForm.OfficerID),
+        CaseStatus: caseForm.CaseStatus,
+        OpenedDate: caseForm.OpenedDate || null,
+      });
+
+      setCaseForm(EMPTY_CASE_FORM);
+      setShowCaseForm(false);
+      setCaseMessage("Case record created successfully.");
+      setCaseMessageType("success");
+      await loadData();
+    } catch (err) {
+      setCaseMessage(err.message || "Could not create the case record.");
+      setCaseMessageType("error");
+    } finally {
+      setSavingCase(false);
+    }
+  }
+
+  async function handleStatusUpdate(event) {
+    event.preventDefault();
+
+    if (!statusCaseId) {
+      setCaseMessage("Select a case before updating its status.");
+      setCaseMessageType("error");
+      return;
+    }
+
+    setUpdatingStatus(true);
+    setCaseMessage("");
+
+    try {
+      const result = await updateCase(Number(statusCaseId), {
+        CaseStatus: statusValue,
+      });
+
+      setCaseMessage(result.message || "Case status updated successfully.");
+      setCaseMessageType("success");
+      await loadData();
+    } catch (err) {
+      setCaseMessage(err.message || "Could not update the case status.");
+      setCaseMessageType("error");
+    } finally {
+      setUpdatingStatus(false);
+    }
+  }
+
+  async function handleUnlinkSubmit(event) {
+    event.preventDefault();
+
+    if (!unlinkForm.CriminalID || !unlinkForm.CaseID) {
+      setUnlinkMessage("Select both a criminal and a case to unlink.");
+      setUnlinkMessageType("error");
+      return;
+    }
+
+    setUnlinking(true);
+    setUnlinkMessage("");
+
+    try {
+      const result = await deleteCriminalCaseLink(
+        Number(unlinkForm.CriminalID),
+        Number(unlinkForm.CaseID),
+      );
+
+      setUnlinkMessage(result.message || "Criminal unlinked from case successfully.");
+      setUnlinkMessageType("success");
+      setUnlinkForm({ CriminalID: "", CaseID: "" });
+      await loadData();
+    } catch (err) {
+      setUnlinkMessage(err.message || "Could not unlink criminal from case.");
+      setUnlinkMessageType("error");
+    } finally {
+      setUnlinking(false);
     }
   }
 
@@ -497,6 +623,214 @@ function App() {
           {linkMessage && (
             <p className={`feedback feedback-${linkMessageType}`} role="status" aria-live="polite">
               {linkMessage}
+            </p>
+          )}
+        </section>
+
+        <section className="content-section link-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">CASE OPERATIONS</p>
+              <h2>Manage cases</h2>
+              <p className="section-description">
+                Create new investigations and update their lifecycle.
+              </p>
+            </div>
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={() => {
+                setShowCaseForm((open) => !open);
+                setCaseMessage("");
+              }}
+              aria-expanded={showCaseForm}
+            >
+              {showCaseForm ? "Cancel" : "＋ New case"}
+            </button>
+          </div>
+
+          {showCaseForm && (
+            <form className="record-form" onSubmit={handleCaseSubmit}>
+              <label>
+                FIR number <span className="required">*</span>
+                <input
+                  type="text"
+                  value={caseForm.FIRNumber}
+                  onChange={(event) =>
+                    setCaseForm({ ...caseForm, FIRNumber: event.target.value })
+                  }
+                  placeholder="e.g. FIR-2026-118"
+                  maxLength={30}
+                  required
+                />
+              </label>
+              <label>
+                Crime type <span className="required">*</span>
+                <select
+                  required
+                  value={caseForm.CrimeID}
+                  onChange={(event) =>
+                    setCaseForm({ ...caseForm, CrimeID: event.target.value })
+                  }
+                >
+                  <option value="">Select a crime</option>
+                  {crimes.map((crime) => (
+                    <option key={crime.CrimeID} value={crime.CrimeID}>
+                      {crime.CrimeType}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Assigned officer <span className="required">*</span>
+                <select
+                  required
+                  value={caseForm.OfficerID}
+                  onChange={(event) =>
+                    setCaseForm({ ...caseForm, OfficerID: event.target.value })
+                  }
+                >
+                  <option value="">Select an officer</option>
+                  {officers.map((officer) => (
+                    <option key={officer.OfficerID} value={officer.OfficerID}>
+                      {officer.OfficerName} ({officer.RankName || "Officer"})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Status
+                <select
+                  value={caseForm.CaseStatus}
+                  onChange={(event) =>
+                    setCaseForm({ ...caseForm, CaseStatus: event.target.value })
+                  }
+                >
+                  <option value="Open">Open</option>
+                  <option value="Under Investigation">Under investigation</option>
+                  <option value="Closed">Closed</option>
+                </select>
+              </label>
+              <label>
+                Opened date
+                <input
+                  type="date"
+                  value={caseForm.OpenedDate}
+                  onChange={(event) =>
+                    setCaseForm({ ...caseForm, OpenedDate: event.target.value })
+                  }
+                />
+              </label>
+              <button className="button button-primary form-submit" type="submit" disabled={savingCase}>
+                {savingCase ? "Creating…" : "Save case"}
+              </button>
+            </form>
+          )}
+
+          {caseMessage && (
+            <p className={`feedback feedback-${caseMessageType}`} role="status" aria-live="polite">
+              {caseMessage}
+            </p>
+          )}
+
+          <div className="case-update-row">
+            <form className="inline-form" onSubmit={handleStatusUpdate}>
+              <label>
+                Update case status
+                <select
+                  value={statusCaseId}
+                  onChange={(event) => setStatusCaseId(event.target.value)}
+                >
+                  <option value="">Select a case</option>
+                  {cases.map((item) => (
+                    <option key={item.CaseID} value={item.CaseID}>
+                      Case {item.CaseID} — {item.FIRNumber}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                New status
+                <select
+                  value={statusValue}
+                  onChange={(event) => setStatusValue(event.target.value)}
+                >
+                  <option value="Open">Open</option>
+                  <option value="Under Investigation">Under investigation</option>
+                  <option value="Closed">Closed</option>
+                </select>
+              </label>
+              <button className="button button-secondary" type="submit" disabled={updatingStatus}>
+                {updatingStatus ? "Updating…" : "Update status"}
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <section className="content-section link-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">RELATIONSHIP MANAGEMENT</p>
+              <h2>Remove case link</h2>
+              <p className="section-description">
+                Unlink a criminal from a case if the association needs to be corrected.
+              </p>
+            </div>
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={() => setShowUnlinkForm((open) => !open)}
+              aria-expanded={showUnlinkForm}
+            >
+              {showUnlinkForm ? "Cancel" : "− Remove link"}
+            </button>
+          </div>
+
+          {showUnlinkForm && (
+            <form className="record-form link-form" onSubmit={handleUnlinkSubmit}>
+              <label>
+                Criminal <span className="required">*</span>
+                <select
+                  required
+                  value={unlinkForm.CriminalID}
+                  onChange={(event) =>
+                    setUnlinkForm({ ...unlinkForm, CriminalID: event.target.value })
+                  }
+                >
+                  <option value="">Select a criminal</option>
+                  {criminals.map((criminal) => (
+                    <option key={criminal.CriminalID} value={criminal.CriminalID}>
+                      {criminal.FullName} (ID: {criminal.CriminalID})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Case <span className="required">*</span>
+                <select
+                  required
+                  value={unlinkForm.CaseID}
+                  onChange={(event) =>
+                    setUnlinkForm({ ...unlinkForm, CaseID: event.target.value })
+                  }
+                >
+                  <option value="">Select a case</option>
+                  {cases.map((item) => (
+                    <option key={item.CaseID} value={item.CaseID}>
+                      Case {item.CaseID} — FIR {item.FIRNumber}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button className="button button-primary form-submit" type="submit" disabled={unlinking}>
+                {unlinking ? "Removing…" : "Remove link"}
+              </button>
+            </form>
+          )}
+
+          {unlinkMessage && (
+            <p className={`feedback feedback-${unlinkMessageType}`} role="status" aria-live="polite">
+              {unlinkMessage}
             </p>
           )}
         </section>
