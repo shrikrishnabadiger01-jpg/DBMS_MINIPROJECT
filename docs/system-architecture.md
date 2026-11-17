@@ -1,6 +1,9 @@
 # Criminal Database Management System — System Architecture
 
-This diagram describes the current implementation and local development configuration.
+This diagram describes the current implementation and local development configuration, with the complete database table list supplied by the user.
+
+- [Editable draw.io diagram](system-architecture.drawio)
+- [SVG preview](system-architecture.svg)
 
 ```mermaid
 flowchart TB
@@ -58,7 +61,7 @@ flowchart TB
 
 - API routes, validation models and business rules currently reside together in `backend/app/main.py`; the diagram separates their responsibilities logically.
 - Database configuration and the shared engine reside in `backend/app/database.py`. Queries use SQLAlchemy SQL expressions rather than ORM models; the declared `SessionLocal` is not used by the current handlers.
-- The tables shown are referenced by backend SQL. Schema creation scripts are not present in this repository, so this is not a verified database schema diagram.
+- The database table list follows the user-supplied schema. Current backend SQL references CaseDetails, Crime, PoliceOfficer, Criminal and CriminalCase. PoliceStation, Investigation and CaseAudit have no dedicated API routes in the inspected source.
 - The backend also exposes case-detail and criminal-case-history reads that currently have no wrappers in `frontend/src/api.js`.
 - `/health` reports service health without querying MySQL; `/db-test` checks database connectivity.
 - No authentication layer or production deployment configuration is implemented in the inspected source.

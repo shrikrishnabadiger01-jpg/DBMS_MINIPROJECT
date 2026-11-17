@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1560" viewBox="0 0 1200 1560">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z" fill="#555"/></marker></defs>
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="Arial, sans-serif" fill="#111">
+<text x="600.0" y="40" text-anchor="middle" font-size="25" font-weight="bold">CRIMINAL DATABASE MANAGEMENT SYSTEM</text>
+<text x="600.0" y="75" text-anchor="middle" font-size="17" font-weight="normal">System Architecture | Current application and supplied database schema</text>
+<rect x="80" y="200" width="1040" height="330" fill="white" stroke="#999" stroke-dasharray="6 5"/>
+<text x="100" y="231" text-anchor="start" font-size="17" font-weight="bold">PRESENTATION TIER - React + Vite | localhost:5173</text>
+<rect x="80" y="610" width="1040" height="500" fill="white" stroke="#999" stroke-dasharray="6 5"/>
+<text x="100" y="641" text-anchor="start" font-size="17" font-weight="bold">APPLICATION TIER - Python + FastAPI | localhost:8000</text>
+<rect x="80" y="1200" width="1040" height="250" fill="white" stroke="#999" stroke-dasharray="6 5"/>
+<text x="100" y="1231" text-anchor="start" font-size="17" font-weight="bold">DATA TIER - MySQL | default localhost:3306</text>
+<rect x="290" y="110" width="620" height="50" fill="white" stroke="#555" stroke-width="1.5"/>
+<text x="600" y="140.0" text-anchor="middle" font-size="17" font-weight="bold">User / Web Browser</text>
+<rect x="290" y="260" width="620" height="110" fill="white" stroke="#555" stroke-width="1.5"/>
+<text x="600" y="296.0" text-anchor="middle" font-size="17" font-weight="bold">React User Interface - App.jsx</text>
+<text x="600" y="320.0" text-anchor="middle" font-size="17" font-weight="normal">Dashboard, case and criminal records, forms</text>
+<text x="600" y="344.0" text-anchor="middle" font-size="17" font-weight="normal">Client-side search, filters and summary counts</text>
+<rect x="290" y="420" width="620" height="90" fill="white" stroke="#555" stroke-width="1.5"/>
+<text x="600" y="446.0" text-anchor="middle" font-size="17" font-weight="bold">HTTP Client - api.js</text>
+<text x="600" y="470.0" text-anchor="middle" font-size="17" font-weight="normal">Fetch API: GET / POST / PUT / DELETE</text>
+<text x="600" y="494.0" text-anchor="middle" font-size="17" font-weight="normal">JSON request, response and error handling</text>
+<rect x="290" y="670" width="620" height="100" fill="white" stroke="#555" stroke-width="1.5"/>
+<text x="600" y="701.0" text-anchor="middle" font-size="17" font-weight="bold">REST API - main.py</text>
+<text x="600" y="725.0" text-anchor="middle" font-size="17" font-weight="normal">Cases, criminals, case links, crimes and officers</text>
+<text x="600" y="749.0" text-anchor="middle" font-size="17" font-weight="normal">CORS middleware + Pydantic request validation</text>
+<rect x="290" y="820" width="620" height="100" fill="white" stroke="#555" stroke-width="1.5"/>
+<text x="600" y="851.0" text-anchor="middle" font-size="17" font-weight="bold">Business Logic - route handlers in main.py</text>
+<text x="600" y="875.0" text-anchor="middle" font-size="17" font-weight="normal">Create cases / criminals; update case status</text>
+<text x="600" y="899.0" text-anchor="middle" font-size="17" font-weight="normal">Link / unlink records; build parameterized SQL</text>
+<rect x="290" y="970" width="620" height="110" fill="white" stroke="#555" stroke-width="1.5"/>
+<text x="600" y="1006.0" text-anchor="middle" font-size="17" font-weight="bold">Database Access - database.py</text>
+<text x="600" y="1030.0" text-anchor="middle" font-size="17" font-weight="normal">SQLAlchemy engine + PyMySQL driver</text>
+<text x="600" y="1054.0" text-anchor="middle" font-size="17" font-weight="normal">Connection pooling and write transactions</text>
+<path d="M290 1275 A310.0 15 0 0 1 910 1275 L910 1405 A310.0 15 0 0 1 290 1405 Z" fill="white" stroke="#555" stroke-width="1.5"/>
+<ellipse cx="600" cy="1275" rx="310.0" ry="15" fill="white" stroke="#555" stroke-width="1.5"/>
+<text x="600" y="1316.0" text-anchor="middle" font-size="17" font-weight="bold">CriminalDB</text>
+<text x="600" y="1340.0" text-anchor="middle" font-size="17" font-weight="normal">CaseDetails | Crime | PoliceOfficer | PoliceStation</text>
+<text x="600" y="1364.0" text-anchor="middle" font-size="17" font-weight="normal">Criminal | CriminalCase | Investigation | CaseAudit</text>
+<text x="600" y="1388.0" text-anchor="middle" font-size="17" font-weight="normal">Connection settings from environment variables / .env</text>
+<line x1="600" y1="162" x2="600" y2="258" stroke="#555" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="620" y="215.0" text-anchor="start" font-size="14" font-weight="normal">User actions / rendered records</text>
+<line x1="600" y1="372" x2="600" y2="418" stroke="#555" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="620" y="400.0" text-anchor="start" font-size="14" font-weight="normal">Function calls / results</text>
+<line x1="600" y1="512" x2="600" y2="668" stroke="#555" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="620" y="595.0" text-anchor="start" font-size="14" font-weight="normal">HTTP REST / JSON responses</text>
+<line x1="600" y1="772" x2="600" y2="818" stroke="#555" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="620" y="800.0" text-anchor="start" font-size="14" font-weight="normal">Validated requests / results</text>
+<line x1="600" y1="922" x2="600" y2="968" stroke="#555" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="620" y="950.0" text-anchor="start" font-size="14" font-weight="normal">Parameterized SQL / rows</text>
+<line x1="600" y1="1082" x2="600" y2="1258" stroke="#555" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="620" y="1175.0" text-anchor="start" font-size="14" font-weight="normal">SQL queries / records; commit or rollback</text>
+<text x="600.0" y="1495" text-anchor="middle" font-size="15" font-weight="normal">Backend modules are logical responsibilities within one FastAPI application.</text>
+<text x="600.0" y="1525" text-anchor="middle" font-size="14" font-weight="normal">PoliceStation, Investigation and CaseAudit are in the supplied schema; no dedicated API routes are implemented.</text>
+</g>
+</svg>

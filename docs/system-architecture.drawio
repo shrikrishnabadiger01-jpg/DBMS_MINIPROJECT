@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="system-architecture" name="System Architecture">
+    <mxGraphModel grid="0" page="1" pageScale="1" pageWidth="1200" pageHeight="1560" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="CRIMINAL DATABASE MANAGEMENT SYSTEM" style="text;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111111;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="0" y="20" width="1200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="System Architecture | Current application and supplied database schema" style="text;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="0" y="55" width="1200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="presentation" value="" style="rounded=0;fillColor=#FFFFFF;strokeColor=#999999;dashed=1;strokeWidth=1;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="80" y="200" width="1040" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="presentation-title" value="PRESENTATION TIER - React + Vite | localhost:5173" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#111111;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="211" width="1000" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="application" value="" style="rounded=0;fillColor=#FFFFFF;strokeColor=#999999;dashed=1;strokeWidth=1;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="80" y="610" width="1040" height="500" as="geometry" />
+        </mxCell>
+        <mxCell id="application-title" value="APPLICATION TIER - Python + FastAPI | localhost:8000" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#111111;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="621" width="1000" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="data" value="" style="rounded=0;fillColor=#FFFFFF;strokeColor=#999999;dashed=1;strokeWidth=1;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1200" width="1040" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="data-title" value="DATA TIER - MySQL | default localhost:3306" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#111111;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1211" width="1000" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="user" value="&lt;b&gt;User / Web Browser&lt;/b&gt;&lt;br&gt;" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#555555;strokeWidth=1.5;fontColor=#111111;fontSize=17;fontFamily=Arial;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="110" width="620" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ui" value="&lt;b&gt;React User Interface - App.jsx&lt;/b&gt;&lt;br&gt;Dashboard, case and criminal records, forms&lt;br&gt;Client-side search, filters and summary counts" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#555555;strokeWidth=1.5;fontColor=#111111;fontSize=17;fontFamily=Arial;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="260" width="620" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="client" value="&lt;b&gt;HTTP Client - api.js&lt;/b&gt;&lt;br&gt;Fetch API: GET / POST / PUT / DELETE&lt;br&gt;JSON request, response and error handling" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#555555;strokeWidth=1.5;fontColor=#111111;fontSize=17;fontFamily=Arial;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="420" width="620" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="&lt;b&gt;REST API - main.py&lt;/b&gt;&lt;br&gt;Cases, criminals, case links, crimes and officers&lt;br&gt;CORS middleware + Pydantic request validation" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#555555;strokeWidth=1.5;fontColor=#111111;fontSize=17;fontFamily=Arial;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="670" width="620" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="logic" value="&lt;b&gt;Business Logic - route handlers in main.py&lt;/b&gt;&lt;br&gt;Create cases / criminals; update case status&lt;br&gt;Link / unlink records; build parameterized SQL" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#555555;strokeWidth=1.5;fontColor=#111111;fontSize=17;fontFamily=Arial;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="820" width="620" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="access" value="&lt;b&gt;Database Access - database.py&lt;/b&gt;&lt;br&gt;SQLAlchemy engine + PyMySQL driver&lt;br&gt;Connection pooling and write transactions" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#555555;strokeWidth=1.5;fontColor=#111111;fontSize=17;fontFamily=Arial;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="970" width="620" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="database" value="&lt;b&gt;CriminalDB&lt;/b&gt;&lt;br&gt;CaseDetails | Crime | PoliceOfficer | PoliceStation&lt;br&gt;Criminal | CriminalCase | Investigation | CaseAudit&lt;br&gt;Connection settings from environment variables / .env" style="shape=cylinder;size=15;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#555555;strokeWidth=1.5;fontColor=#111111;fontSize=17;fontFamily=Arial;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1260" width="620" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="user-to-ui" style="html=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeColor=#555555;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="user" target="ui">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-flow" value="User actions / rendered records" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="195.0" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ui-to-client" style="html=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeColor=#555555;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="ui" target="client">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ui-flow" value="Function calls / results" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="380.0" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="client-to-api" style="html=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeColor=#555555;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="client" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="client-flow" value="HTTP REST / JSON responses" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="575.0" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="api-to-logic" style="html=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeColor=#555555;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="api" target="logic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="api-flow" value="Validated requests / results" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="780.0" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="logic-to-access" style="html=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeColor=#555555;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="logic" target="access">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="logic-flow" value="Parameterized SQL / rows" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="930.0" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="access-to-database" style="html=1;startArrow=block;endArrow=block;startFill=1;endFill=1;strokeColor=#555555;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="access" target="database">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="access-flow" value="SQL queries / records; commit or rollback" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="1155.0" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="note1" value="Backend modules are logical responsibilities within one FastAPI application." style="text;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=15;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="0" y="1475" width="1200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="note2" value="PoliceStation, Investigation and CaseAudit are in the supplied schema; no dedicated API routes are implemented." style="text;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#111111;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="0" y="1505" width="1200" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
